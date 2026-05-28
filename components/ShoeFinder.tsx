@@ -1,7 +1,12 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { getRecommendations, type Recommendation } from "@/lib/recommendations";
+import {
+  getRecommendations,
+  getResultsHeadline,
+  type Recommendation,
+} from "@/lib/recommendations";
+import { buildProfileSummary } from "@/lib/profile";
 import { QUESTIONS, emptyAnswers } from "@/lib/questions";
 import { type FormAnswers, formatPrice } from "@/lib/shoes";
 
@@ -27,75 +32,123 @@ function ProgressBar({ current, total }: { current: number; total: number }) {
   );
 }
 
+function ProfileSummaryCard({ answers }: { answers: FormAnswers }) {
+  const profile = buildProfileSummary(answers);
+
+  return (
+    <div className="animate-fade-in-up mb-10 rounded-[2rem] border border-neutral-200/80 bg-white p-8 shadow-[0_12px_40px_rgb(0,0,0,0.06)] sm:p-10">
+      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-400">
+        {profile.title}
+      </p>
+      <ul className="mt-6 space-y-3">
+        {profile.bullets.map((bullet) => (
+          <li
+            key={bullet}
+            className="flex items-start gap-3 text-base text-neutral-700"
+          >
+            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-neutral-900" />
+            {bullet}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 function ResultCard({
   recommendation,
   index,
+  prominent = false,
 }: {
   recommendation: Recommendation;
   index: number;
+  prominent?: boolean;
 }) {
-  const { shoe, slot, slotLabel, reason } = recommendation;
-  const isBest = slot === "melhor";
+  const { shoe, slotLabel, badge, reason, highlighted } = recommendation;
+  const isHighlighted = highlighted || prominent;
 
   return (
     <article
       className={`group animate-fade-in-up flex flex-col overflow-hidden rounded-3xl border bg-white transition duration-500 ${
-        isBest
-          ? "border-neutral-900 shadow-[0_28px_80px_rgb(0,0,0,0.14)] ring-[3px] ring-neutral-900/10 lg:z-10 lg:scale-[1.02]"
-          : "border-neutral-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.05)] hover:-translate-y-1 hover:shadow-[0_20px_50px_rgb(0,0,0,0.08)]"
+        isHighlighted
+          ? "border-neutral-900 shadow-[0_32px_90px_rgb(0,0,0,0.16)] ring-[3px] ring-neutral-900/10"
+          : "border-neutral-200/70 opacity-[0.97] shadow-[0_6px_24px_rgb(0,0,0,0.04)] hover:border-neutral-300 hover:opacity-100"
       }`}
-      style={{ animationDelay: `${index * 100}ms` }}
+      style={{ animationDelay: `${index * 80}ms` }}
       aria-labelledby={`card-title-${shoe.id}`}
     >
-      <div className="border-b border-neutral-100 bg-neutral-50 px-5 py-4 sm:px-6">
+      <div className="border-b border-neutral-100 bg-neutral-50/80 px-5 py-4 sm:px-6">
         <div className="flex items-start justify-between gap-3">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-neutral-400">
-              {shoe.brand}
+              {shoe.brand} · {shoe.lineCategoryLabel}
             </p>
             <h3
               id={`card-title-${shoe.id}`}
-              className="mt-1 text-xl font-semibold tracking-tight text-neutral-900"
+              className={`mt-1 font-semibold tracking-tight text-neutral-900 ${
+                isHighlighted ? "text-2xl" : "text-xl"
+              }`}
             >
-              {shoe.name}
+              {shoe.model}
             </h3>
           </div>
-          <span
-            className={`shrink-0 rounded-full px-3 py-1.5 text-[11px] font-semibold tracking-wide sm:text-xs ${
-              isBest
-                ? "border border-white/20 bg-neutral-900 text-white shadow-lg"
-                : "bg-white text-neutral-800 shadow-sm ring-1 ring-neutral-200"
-            }`}
-          >
-            {slotLabel}
-          </span>
+          <div className="flex shrink-0 flex-col items-end gap-1.5">
+            <span
+              className={`rounded-full px-3 py-1.5 text-[11px] font-semibold tracking-wide sm:text-xs ${
+                isHighlighted
+                  ? "border border-white/20 bg-neutral-900 text-white shadow-lg"
+                  : "bg-white text-neutral-600 shadow-sm ring-1 ring-neutral-200"
+              }`}
+            >
+              {badge}
+            </span>
+            <span className="text-[10px] font-medium uppercase tracking-wider text-neutral-400">
+              {slotLabel}
+            </span>
+          </div>
         </div>
         <p className="mt-3 text-sm font-medium text-neutral-500">
           Preço médio no Brasil · {formatPrice(shoe.price)}
         </p>
         {shoe.hasPlate && (
           <p className="mt-2 inline-flex rounded-full bg-neutral-900/5 px-3 py-1 text-xs font-medium text-neutral-700">
-            Com placa · indicado para ritmo e provas
+            Com placa · mais impulso em treinos rápidos
           </p>
         )}
       </div>
 
       <div className="flex flex-1 flex-col p-5 sm:p-6">
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           <div className="rounded-2xl bg-neutral-50 px-3 py-2.5">
             <p className="text-[10px] font-semibold uppercase tracking-wider text-neutral-400">
-              Conforto
+              Finalidade
             </p>
-            <p className="mt-0.5 text-sm font-medium text-neutral-800">
-              {shoe.comfortLevel}
+            <p className="mt-0.5 text-sm font-medium leading-snug text-neutral-800">
+              {shoe.purpose}
             </p>
           </div>
           <div className="rounded-2xl bg-neutral-50 px-3 py-2.5">
             <p className="text-[10px] font-semibold uppercase tracking-wider text-neutral-400">
-              Melhor uso
+              Ritmo ideal
             </p>
             <p className="mt-0.5 text-sm font-medium leading-snug text-neutral-800">
-              {shoe.bestUse}
+              {shoe.idealPace}
+            </p>
+          </div>
+          <div className="rounded-2xl bg-neutral-50 px-3 py-2.5">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-neutral-400">
+              Amortecimento
+            </p>
+            <p className="mt-0.5 text-sm font-medium capitalize text-neutral-800">
+              {shoe.cushioningType}
+            </p>
+          </div>
+          <div className="rounded-2xl bg-neutral-50 px-3 py-2.5">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-neutral-400">
+              Estabilidade
+            </p>
+            <p className="mt-0.5 text-sm font-medium capitalize text-neutral-800">
+              {shoe.stabilityLevel}
             </p>
           </div>
         </div>
@@ -104,11 +157,45 @@ function ResultCard({
           {shoe.description}
         </p>
 
-        <p className="mt-4 rounded-2xl bg-neutral-50 px-4 py-3 text-sm leading-relaxed text-neutral-700">
+        <p className="mt-4 rounded-2xl bg-neutral-900/[0.04] px-4 py-3.5 text-sm leading-relaxed text-neutral-800">
           {reason}
         </p>
 
-        <ul className="mt-4 space-y-2">
+        <div className="mt-5">
+          <p className="text-xs font-semibold uppercase tracking-wider text-neutral-500">
+            Esse tênis é ideal para você se…
+          </p>
+          <ul className="mt-2 space-y-2">
+            {shoe.idealFor.map((item) => (
+              <li
+                key={item}
+                className="flex items-start gap-2 text-sm text-neutral-700"
+              >
+                <span className="mt-1.5 text-neutral-900">✓</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="mt-4">
+          <p className="text-xs font-semibold uppercase tracking-wider text-neutral-400">
+            Talvez não seja ideal se…
+          </p>
+          <ul className="mt-2 space-y-2">
+            {shoe.notIdealFor.map((item) => (
+              <li
+                key={item}
+                className="flex items-start gap-2 text-sm text-neutral-500"
+              >
+                <span className="mt-1.5 text-neutral-400">–</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <ul className="mt-5 space-y-2 border-t border-neutral-100 pt-4">
           {shoe.strengths.map((strength) => (
             <li
               key={strength}
@@ -184,15 +271,12 @@ export default function ShoeFinder() {
     bumpTransition();
   }
 
-  const orderedResults = results
-    ? (["economico", "intermediario", "melhor", "alternativa"] as const).map(
-        (s) => results.find((r) => r.slot === s)!,
-      )
-    : [];
+  const resultsHeadline = results ? getResultsHeadline(answers) : null;
+
 
   return (
     <main className="min-h-screen bg-[#f5f5f7] text-neutral-900">
-      <div className="mx-auto w-full max-w-7xl px-5 py-14 sm:px-8 sm:py-20">
+      <div className="mx-auto w-full max-w-6xl px-5 py-14 sm:px-8 sm:py-20">
         {phase === "hero" && (
           <section className="animate-fade-in-up flex min-h-[70vh] flex-col items-center justify-center text-center">
             <p className="mb-5 text-xs font-semibold uppercase tracking-[0.25em] text-neutral-400">
@@ -256,27 +340,30 @@ export default function ShoeFinder() {
           </section>
         )}
 
-        {phase === "results" && results && (
+        {phase === "results" && results && results.length > 0 && (
           <section className="animate-fade-in-up">
-            <div className="mb-12 text-center">
+            <div className="mb-10 text-center">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-400">
                 Suas indicações
               </p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-                Quatro opções para você
+                {resultsHeadline?.title ?? "Encontramos o que combina com você"}
               </h2>
               <p className="mx-auto mt-3 max-w-lg text-neutral-500">
-                Uma opção em conta, uma intermediária, a melhor para o seu perfil
-                e uma alternativa — incluindo modelos de ritmo quando fizer sentido.
+                {resultsHeadline?.subtitle ??
+                  "Do mais acessível ao mais premium, com destaque na opção mais equilibrada."}
               </p>
             </div>
 
-            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4 xl:items-stretch xl:gap-6">
-              {orderedResults.map((rec, index) => (
+            <ProfileSummaryCard answers={answers} />
+
+            <div className="flex flex-col gap-6">
+              {results.map((rec, index) => (
                 <ResultCard
                   key={rec.shoe.id}
                   recommendation={rec}
                   index={index}
+                  prominent={rec.highlighted}
                 />
               ))}
             </div>

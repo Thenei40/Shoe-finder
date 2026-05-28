@@ -1,3 +1,5 @@
+import { PRICE_BAND_OPTIONS } from "./prices";
+import { WEIGHT_BAND_OPTIONS } from "./weight";
 import type { FormAnswers } from "./shoes";
 
 export type Question = {
@@ -39,24 +41,38 @@ export const QUESTIONS: Question[] = [
   },
   {
     id: "price",
-    label: "Qual sua faixa de preço?",
+    label: "Qual sua faixa de investimento?",
+    helper:
+      "Faixas alinhadas ao mercado brasileiro — da entrada ao topo de linha para corridas.",
+    options: PRICE_BAND_OPTIONS.map((o) => ({
+      value: o.value,
+      label: o.label,
+    })),
+  },
+  {
+    id: "brandPreference",
+    label: "Você possui preferência de marca?",
+    helper:
+      "Com marca escolhida, mostramos só modelos dessa marca — como uma consultoria especializada. Sem preferência, comparamos todas as marcas.",
     options: [
-      { value: "ate-400", label: "Até R$ 400" },
-      { value: "400-700", label: "R$ 400 – R$ 700" },
-      { value: "700-1000", label: "R$ 700 – R$ 1.000" },
-      { value: "1000-2000", label: "R$ 1.000 – R$ 2.000" },
-      { value: "acima-3000", label: "Acima de R$ 3.000" },
+      { value: "adidas", label: "Adidas" },
+      { value: "nike", label: "Nike" },
+      { value: "asics", label: "Asics" },
+      { value: "mizuno", label: "Mizuno" },
+      { value: "puma", label: "Puma" },
+      { value: "olympikus", label: "Olympikus" },
+      { value: "sem-preferencia", label: "Sem preferência" },
     ],
   },
   {
     id: "weight",
-    label: "Qual seu peso?",
-    helper: "Isso nos ajuda a indicar modelos com a proteção certa para você.",
-    options: [
-      { value: "ate-70", label: "Até 70 kg" },
-      { value: "70-85", label: "70 – 85 kg" },
-      { value: "acima-85", label: "Acima de 85 kg" },
-    ],
+    label: "Qual sua faixa de peso?",
+    helper:
+      "Seu peso influencia amortecimento, estabilidade e resposta — usamos isso para indicar o nível certo de proteção.",
+    options: WEIGHT_BAND_OPTIONS.map((o) => ({
+      value: o.value,
+      label: o.label,
+    })),
   },
   {
     id: "experience",
@@ -86,6 +102,7 @@ export const emptyAnswers: FormAnswers = {
   frequency: "",
   feeling: "",
   price: "",
+  brandPreference: "",
   weight: "",
   experience: "",
   discomfort: "",

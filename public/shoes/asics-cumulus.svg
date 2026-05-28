@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect fill="#0054A6" width="800" height="600"/>
+  <rect fill="rgba(255,255,255,0.12)" x="80" y="200" width="640" height="220" rx="24"/>
+  <text x="400" y="280" text-anchor="middle" fill="white" font-family="system-ui,sans-serif" font-size="28" font-weight="600">Asics</text>
+  <text x="400" y="330" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="system-ui,sans-serif" font-size="22">Gel-Cumulus 26</text>
+</svg>

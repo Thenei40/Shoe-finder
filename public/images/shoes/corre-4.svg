@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="Olympikus Corre 4">
+  <defs>
+    <linearGradient id="bg-corre-4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f8f8"/>
+      <stop offset="100%" style="stop-color:#ececec"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg-corre-4)"/>
+  <text x="400" y="80" text-anchor="middle" font-family="system-ui,sans-serif" font-size="28" font-weight="600" fill="#1a1a1a">Olympikus</text>
+  <text x="400" y="120" text-anchor="middle" font-family="system-ui,sans-serif" font-size="22" fill="#666">Corre 4</text>
+  
+  <g transform="translate(400 290)">
+    <ellipse cx="0" cy="58" rx="190" ry="16" fill="rgba(0,0,0,0.05)"/>
+    <path d="M-170 18 Q-115 -32 25 -38 Q145 -40 180 8 Q195 38 160 58 Q75 72 -75 66 Q-155 60 -170 18 Z" fill="#E85D04"/>
+    <path d="M-150 22 Q-85 -18 35 -20 Q125 -22 168 15 Q178 35 145 50 Q55 60 -65 54 Q-135 50 -150 22 Z" fill="#ffffff" opacity="0.28"/>
+  </g>
+
+</svg>

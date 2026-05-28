@@ -1,0 +1,86 @@
+import type { CatalogShoeDef } from "./catalog-types";
+
+/** Catálogo amplo — todas as marcas, múltiplas categorias por linha */
+export const CATALOG_DEFS: CatalogShoeDef[] = [
+  // —— Adidas ——
+  { id: "adidas-duramo", model: "Duramo", brand: "Adidas", price: 399, lineCategory: "entrada", bestUse: "Entrada acessível na Adidas" },
+  { id: "adidas-runfalcon", model: "Runfalcon", brand: "Adidas", price: 449, lineCategory: "entrada" },
+  { id: "adidas-galaxy", model: "Galaxy", brand: "Adidas", price: 429, lineCategory: "entrada" },
+  { id: "adidas-supernova", model: "Supernova", brand: "Adidas", price: 599, lineCategory: "treino-diario", purpose: "Daily trainer clássico da Adidas" },
+  { id: "adidas-supernova-rise", model: "Supernova Rise", brand: "Adidas", price: 799, lineCategory: "treino-diario", versatilityScore: 5 },
+  { id: "adidas-sl2", model: "SL2", brand: "Adidas", price: 649, lineCategory: "treino-diario" },
+  { id: "adidas-response-super", model: "Response Super", brand: "Adidas", price: 749, lineCategory: "daily-premium" },
+  { id: "adidas-evo-sl", model: "EVO SL", brand: "Adidas", price: 999, lineCategory: "daily-premium", isAggressive: false, beginnerFriendly: false },
+  { id: "adidas-solarboost", model: "Solarboost", brand: "Adidas", price: 899, lineCategory: "estabilidade", stabilityLevel: "alta" },
+  { id: "adidas-boston-13", model: "Boston 13", brand: "Adidas", price: 1299, lineCategory: "performance", isAggressive: true, beginnerFriendly: false },
+  { id: "adidas-takumi-sen-10", model: "Takumi Sen 10", brand: "Adidas", price: 1199, lineCategory: "prova", hasPlate: true },
+  { id: "adidas-adios-pro-3", model: "Adios Pro 3", brand: "Adidas", price: 1899, lineCategory: "super-shoe" },
+  { id: "adidas-prime-x-2", model: "Prime X 2", brand: "Adidas", price: 2499, lineCategory: "super-shoe" },
+
+  // —— Nike ——
+  { id: "nike-downshifter", model: "Downshifter", brand: "Nike", price: 379, lineCategory: "entrada" },
+  { id: "nike-winflo", model: "Winflo", brand: "Nike", price: 449, lineCategory: "entrada" },
+  { id: "nike-revolution", model: "Revolution", brand: "Nike", price: 399, lineCategory: "entrada" },
+  { id: "nike-pegasus-41", model: "Pegasus 41", brand: "Nike", price: 899, lineCategory: "treino-diario", versatilityScore: 5 },
+  { id: "nike-quest", model: "Quest", brand: "Nike", price: 549, lineCategory: "treino-diario" },
+  { id: "nike-structure-25", model: "Structure 25", brand: "Nike", price: 899, lineCategory: "estabilidade", stabilityLevel: "alta" },
+  { id: "nike-vomero-18", model: "Vomero 18", brand: "Nike", price: 1099, lineCategory: "max-cushion" },
+  { id: "nike-invincible-3", model: "Invincible 3", brand: "Nike", price: 1299, lineCategory: "max-cushion", versatilityScore: 3 },
+  { id: "nike-pegasus-premium", model: "Pegasus Premium", brand: "Nike", price: 999, lineCategory: "daily-premium" },
+  { id: "nike-streakfly", model: "Streakfly", brand: "Nike", price: 999, lineCategory: "performance", isAggressive: true },
+  { id: "nike-zoom-fly-6", model: "Zoom Fly 6", brand: "Nike", price: 1299, lineCategory: "prova", hasPlate: true },
+  { id: "nike-vaporfly-3", model: "Vaporfly 3", brand: "Nike", price: 1999, lineCategory: "super-shoe" },
+  { id: "nike-alphafly-3", model: "Alphafly 3", brand: "Nike", price: 2799, lineCategory: "super-shoe" },
+
+  // —— Asics ——
+  { id: "asics-contend", model: "Gel-Contend", brand: "Asics", price: 399, lineCategory: "entrada" },
+  { id: "asics-excite", model: "Gel-Excite", brand: "Asics", price: 449, lineCategory: "entrada" },
+  { id: "asics-pulse", model: "Gel-Pulse", brand: "Asics", price: 499, lineCategory: "entrada" },
+  { id: "asics-cumulus-26", model: "Gel-Cumulus 26", brand: "Asics", price: 899, lineCategory: "treino-diario", versatilityScore: 5 },
+  { id: "asics-novablast-4", model: "Novablast 4", brand: "Asics", price: 999, lineCategory: "daily-premium", beginnerFriendly: false },
+  { id: "asics-kayano-31", model: "Gel-Kayano 31", brand: "Asics", price: 1199, lineCategory: "estabilidade", stabilityLevel: "alta" },
+  { id: "asics-nimbus-26", model: "Gel-Nimbus 26", brand: "Asics", price: 1299, lineCategory: "max-cushion" },
+  { id: "asics-gt-2000", model: "GT-2000", brand: "Asics", price: 849, lineCategory: "estabilidade", stabilityLevel: "alta" },
+  { id: "asics-magic-speed-4", model: "Magic Speed 4", brand: "Asics", price: 1099, lineCategory: "performance", hasPlate: true },
+  { id: "asics-metaspeed-sky", model: "Metaspeed Sky", brand: "Asics", price: 1899, lineCategory: "super-shoe" },
+  { id: "asics-metaspeed-edge", model: "Metaspeed Edge", brand: "Asics", price: 1899, lineCategory: "prova", hasPlate: true },
+  { id: "asics-superblast-2", model: "Superblast 2", brand: "Asics", price: 1399, lineCategory: "performance" },
+
+  // —— Mizuno ——
+  { id: "mizuno-maximizer", model: "Wave Maximizer", brand: "Mizuno", price: 449, lineCategory: "entrada" },
+  { id: "mizuno-sonic", model: "Wave Sonic", brand: "Mizuno", price: 499, lineCategory: "entrada" },
+  { id: "mizuno-rider-27", model: "Wave Rider 27", brand: "Mizuno", price: 999, lineCategory: "treino-diario", versatilityScore: 5 },
+  { id: "mizuno-inspire", model: "Wave Inspire", brand: "Mizuno", price: 949, lineCategory: "estabilidade", stabilityLevel: "alta" },
+  { id: "mizuno-horizon-7", model: "Wave Horizon 7", brand: "Mizuno", price: 1049, lineCategory: "estabilidade", stabilityLevel: "alta" },
+  { id: "mizuno-sky-7", model: "Wave Sky 7", brand: "Mizuno", price: 1099, lineCategory: "max-cushion" },
+  { id: "mizuno-paradox", model: "Wave Paradox", brand: "Mizuno", price: 899, lineCategory: "estabilidade" },
+  { id: "mizuno-rebellion-flash", model: "Wave Rebellion Flash", brand: "Mizuno", price: 1199, lineCategory: "performance" },
+  { id: "mizuno-rebellion-pro", model: "Wave Rebellion Pro", brand: "Mizuno", price: 1399, lineCategory: "prova", hasPlate: true },
+  { id: "mizuno-wave-duel", model: "Wave Duel", brand: "Mizuno", price: 999, lineCategory: "performance", isAggressive: true },
+  { id: "mizuno-neo-vista", model: "Neo Vista", brand: "Mizuno", price: 1799, lineCategory: "super-shoe" },
+
+  // —— Puma ——
+  { id: "puma-aviate", model: "Aviate", brand: "Puma", price: 399, lineCategory: "entrada" },
+  { id: "puma-scend", model: "Scend Pro", brand: "Puma", price: 449, lineCategory: "entrada" },
+  { id: "puma-foreverrun", model: "ForeverRun Nitro", brand: "Puma", price: 699, lineCategory: "treino-diario" },
+  { id: "puma-velocity-3", model: "Velocity Nitro 3", brand: "Puma", price: 799, lineCategory: "treino-diario", versatilityScore: 5 },
+  { id: "puma-magnify-2", model: "Magnify Nitro 2", brand: "Puma", price: 999, lineCategory: "max-cushion" },
+  { id: "puma-deviate-2", model: "Deviate Nitro 2", brand: "Puma", price: 1199, lineCategory: "performance", hasPlate: true },
+  { id: "puma-fast-r", model: "Fast-R Nitro", brand: "Puma", price: 1499, lineCategory: "prova", hasPlate: true },
+  { id: "puma-liberate", model: "Liberate Nitro", brand: "Puma", price: 849, lineCategory: "daily-premium" },
+  { id: "puma-foreverrun-plus", model: "ForeverRun Nitro 2", brand: "Puma", price: 899, lineCategory: "daily-premium" },
+  { id: "puma-everspeed", model: "Everspeed", brand: "Puma", price: 479, lineCategory: "entrada" },
+  { id: "puma-deviate-elite", model: "Deviate Elite", brand: "Puma", price: 1899, lineCategory: "super-shoe" },
+
+  // —— Olympikus ——
+  { id: "olympikus-corre-4", model: "Corre 4", brand: "Olympikus", price: 499, lineCategory: "entrada" },
+  { id: "olympikus-fleeting-2", model: "Fleeting 2", brand: "Olympikus", price: 549, lineCategory: "entrada" },
+  { id: "olympikus-active", model: "Active", brand: "Olympikus", price: 399, lineCategory: "entrada" },
+  { id: "olympikus-corre-max", model: "Corre Max", brand: "Olympikus", price: 599, lineCategory: "max-cushion" },
+  { id: "olympikus-dexter-3", model: "Dexter 3", brand: "Olympikus", price: 749, lineCategory: "treino-diario", versatilityScore: 5 },
+  { id: "olympikus-corre-trilha", model: "Corre Trilha", brand: "Olympikus", price: 649, lineCategory: "treino-diario" },
+  { id: "olympikus-corre-supra", model: "Corre Supra", brand: "Olympikus", price: 899, lineCategory: "daily-premium" },
+  { id: "olympikus-corre-gt", model: "Corre GT", brand: "Olympikus", price: 799, lineCategory: "performance", beginnerFriendly: false },
+  { id: "olympikus-corre-veloz", model: "Corre Veloz", brand: "Olympikus", price: 699, lineCategory: "performance" },
+  { id: "olympikus-streak", model: "Streak", brand: "Olympikus", price: 549, lineCategory: "treino-diario" },
+];
