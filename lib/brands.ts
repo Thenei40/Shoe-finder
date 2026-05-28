@@ -5,6 +5,9 @@ export const ALLOWED_BRAND_SLUGS = [
   "mizuno",
   "puma",
   "olympikus",
+  "new-balance",
+  "saucony",
+  "hoka",
   "sem-preferencia",
 ] as const;
 
@@ -17,6 +20,9 @@ export const BRAND_LABELS: Record<string, string> = {
   mizuno: "Mizuno",
   puma: "Puma",
   olympikus: "Olympikus",
+  "new-balance": "New Balance",
+  saucony: "Saucony",
+  hoka: "Hoka",
   "sem-preferencia": "Sem preferência",
 };
 
@@ -27,6 +33,9 @@ export const BRAND_TO_SLUG: Record<string, string> = {
   Mizuno: "mizuno",
   Puma: "puma",
   Olympikus: "olympikus",
+  "New Balance": "new-balance",
+  Saucony: "saucony",
+  Hoka: "hoka",
 };
 
 export function shoeBrandSlug(brand: string): string {

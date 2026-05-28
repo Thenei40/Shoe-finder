@@ -1,4 +1,8 @@
-import type { LineCategory } from "./catalog-types";
+import {
+  HEAVY_RUNNER_CATEGORIES,
+  LIGHT_RUNNER_CATEGORIES,
+  type TechnicalCategory,
+} from "./catalog-categories";
 import type { Shoe, ShoeInput } from "./shoes";
 import { getShoeProfile } from "./shoe-scores";
 
@@ -36,16 +40,17 @@ export const WEIGHT_PROFILE_LABELS: Record<WeightBandSlug, string> = {
 
 const ALL_BANDS: WeightBandSlug[] = WEIGHT_BAND_OPTIONS.map((o) => o.value);
 
-const HEAVY_CATEGORIES = new Set<LineCategory>([
-  "estabilidade",
-  "max-cushion",
-]);
+function shoeCategories(shoe: ShoeInput): TechnicalCategory[] {
+  return [shoe.category, ...(shoe.secondaryCategories ?? [])];
+}
 
-const LIGHT_CATEGORIES = new Set<LineCategory>([
-  "performance",
-  "prova",
-  "super-shoe",
-]);
+function matchesHeavyCategory(categories: TechnicalCategory[]): boolean {
+  return categories.some((c) => HEAVY_RUNNER_CATEGORIES.has(c));
+}
+
+function matchesLightCategory(categories: TechnicalCategory[]): boolean {
+  return categories.some((c) => LIGHT_RUNNER_CATEGORIES.has(c));
+}
 
 export function isWeightBandSlug(value: string): value is WeightBandSlug {
   return ALL_BANDS.includes(value as WeightBandSlug);
@@ -69,18 +74,19 @@ export type ShoeWeightMetrics = {
 
 export function shoeWeightMetrics(shoe: ShoeInput): ShoeWeightMetrics {
   const profile = getShoeProfile(shoe.id, shoe as Shoe);
+  const categories = shoeCategories(shoe);
 
   let cushioningForHeavy =
-    shoe.cushioningType === "macio"
+    shoe.cushioningLevel >= 4
       ? 5
-      : shoe.cushioningType === "equilibrado"
+      : shoe.cushioningLevel >= 3
         ? 3
         : 2;
 
   let stabilityScore =
-    shoe.stabilityLevel === "alta"
+    shoe.stabilityLevelNum >= 4
       ? 5
-      : shoe.stabilityLevel === "media"
+      : shoe.stabilityLevelNum >= 3
         ? 3
         : 2;
 
@@ -93,29 +99,31 @@ export function shoeWeightMetrics(shoe: ShoeInput): ShoeWeightMetrics {
 
   let durability =
     shoe.tier === "economico" || shoe.tier === "intermediario" ? 4 : 3;
-  if (shoe.stabilityLevel === "alta") durability += 1;
+  if (shoe.stabilityLevelNum >= 4) durability += 1;
   if (shoe.hasPlate) durability -= 1;
 
-  if (HEAVY_CATEGORIES.has(shoe.lineCategory)) {
+  if (matchesHeavyCategory(categories)) {
     cushioningForHeavy = Math.max(cushioningForHeavy, 5);
     stabilityScore = Math.max(stabilityScore, 4);
     agilityForLight = Math.min(agilityForLight, 3);
   }
 
-  if (LIGHT_CATEGORIES.has(shoe.lineCategory)) {
+  if (matchesLightCategory(categories)) {
     agilityForLight = 5;
     cushioningForHeavy = Math.min(cushioningForHeavy, 3);
   }
 
-  const idealBands = new Set<WeightBandSlug>();
+  const idealBands = new Set<WeightBandSlug>(
+    (shoe.idealWeight ?? []) as WeightBandSlug[],
+  );
 
-  if (LIGHT_CATEGORIES.has(shoe.lineCategory) || agilityForLight >= 4) {
+  if (matchesLightCategory(categories) || agilityForLight >= 4) {
     idealBands.add("ate-60");
     idealBands.add("60-70");
     idealBands.add("70-80");
   }
 
-  if (HEAVY_CATEGORIES.has(shoe.lineCategory) || cushioningForHeavy >= 4) {
+  if (matchesHeavyCategory(categories) || cushioningForHeavy >= 4) {
     idealBands.add("80-90");
     idealBands.add("90-100");
     idealBands.add("100-110");
@@ -149,7 +157,6 @@ export function shoeWeightMetrics(shoe: ShoeInput): ShoeWeightMetrics {
   };
 }
 
-/** Faixas de peso compatíveis com o modelo (para matching no quiz) */
 export function weightBandsForShoe(shoe: ShoeInput): WeightBandSlug[] {
   return shoeWeightMetrics(shoe).idealBands;
 }
@@ -162,7 +169,6 @@ export function shoeMatchesUserWeight(
   return weightBandsForShoe(shoe).includes(userBand);
 }
 
-/** Texto educativo sobre como o peso influencia a escolha */
 export function weightInsightClause(band: string): string | null {
   if (!isWeightBandSlug(band)) return null;
 
